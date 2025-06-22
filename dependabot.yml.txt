@@ -1,0 +1,297 @@
+---
+version: 2
+
+registries:
+  dockerhub:
+    type: docker-registry
+    url: registry.hub.docker.com
+    username: ${{ secrets.DOCKERHUB_USERNAME }}
+    password: ${{ secrets.DOCKERHUB_PASSWORD }}
+  docker-ecr-public:
+    type: docker-registry
+    url: 	https://public.ecr.aws
+    username: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
+    password: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
+    replaces-base: true
+  docker-ecr-private:
+    type: docker-registry
+    url: https://439152312044.dkr.ecr.ap-southeast-1.amazonaws.com
+    username: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
+    password: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
+    replaces-base: true
+
+---
+version: 2
+
+updates:
+  - package-ecosystem: "bundler"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "chore"
+
+  - package-ecosystem: "cargo"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "chore"
+
+  - package-ecosystem: "composer"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "chore"
+
+  - package-ecosystem: "devcontainers"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "chore"
+
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "chore"
+
+  - package-ecosystem: "mix"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "chore"
+
+  - package-ecosystem: "elm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "chore"
+
+  - package-ecosystem: "gitsubmodule"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "chore"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "chore"
+
+  - package-ecosystem: "gomod"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "chore"
+
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "chore"
+
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "chore"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "chore"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "chore"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "chore"
+
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "chore"
+
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "chore"
+
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "chore"
+
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "chore"
+
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "chore"
+
+  - package-ecosystem: "pub"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "chore"
+
+  - package-ecosystem: "swift"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "chore"
+
+  - package-ecosystem: "terraform"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "chore"
+
+  - package-ecosystem: "uv"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "chore"
+
+registries:
+  composer-registry:
+    type: composer-repository
+    url: https://repo.packagist.org
+    username: ${{ secrets.COMPOSER_USERNAME }}
+    password: ${{ secrets.COMPOSER_PASSWORD }}
+
+  docker-registry:
+    type: docker-registry
+    url: https://index.docker.io
+    username: ${{ secrets.DOCKER_USERNAME }}
+    password: ${{ secrets.DOCKER_PASSWORD }}
+
+  docker-ecr-public:
+    type: docker-registry
+    url: 	https://public.ecr.aws
+    username: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
+    password: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
+    replaces-base: true
+
+  docker-ecr-private:
+    type: docker-registry
+    url: ${{ secrets.ECR_AWS_REGISTRY_URL }}
+    username: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
+    password: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
+    replaces-base: true
+`
+  git-registry:
+    type: git
+    url: https://github.com/your-org/your-repo.git
+    username: x-access-token
+    password: ${{ secrets.GITHUB_TOKEN }}
+
+  hex-org-registry:
+    type: hex-organization
+    organization: your-org
+    key: ${{ secrets.HEX_ORG_KEY }}
+
+  hex-repo-registry:
+    type: hex-repository
+    repo: https://repo.hex.pm
+    auth-key: ${{ secrets.HEX_AUTH_KEY }}
+    public-key-fingerprint: "optional:fingerprint:here"
+
+  maven-registry:
+    type: maven-repository
+    url: https://repo.maven.apache.org/maven2
+    username: ${{ secrets.MAVEN_USERNAME }}
+    password: ${{ secrets.MAVEN_PASSWORD }}
+
+  npm-registry:
+    type: npm-registry
+    url: https://registry.npmjs.org/
+    token: ${{ secrets.NPM_TOKEN }}
+
+  nuget-registry:
+    type: nuget-feed
+    url: https://api.nuget.org/v3/index.json
+    token: ${{ secrets.NUGET_TOKEN }}
+
+  pub-registry:
+    type: pub-registry
+    url: https://pub.dev
+    token: ${{ secrets.PUB_TOKEN }}
+
+  python-registry:
+    type: python-index
+    url: https://pypi.org/simple
+    token: ${{ secrets.PYPI_TOKEN }}
+
+  rubygems-registry:
+    type: rubygems-server
+    url: https://rubygems.org
+    token: ${{ secrets.RUBYGEMS_TOKEN }}
+
+  terraform-registry:
+    type: terraform-registry
+    url: https://registry.terraform.io
+    token: ${{ secrets.TERRAFORM_TOKEN }}
