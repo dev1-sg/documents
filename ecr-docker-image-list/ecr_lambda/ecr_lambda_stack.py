@@ -5,10 +5,8 @@ from aws_cdk import (
     Duration,
 )
 from constructs import Construct
-import os
 
 class EcrLambdaStack(Stack):
-
     def __init__(self, scope: Construct, construct_id: str, **kwargs):
         super().__init__(scope, construct_id, **kwargs)
 
@@ -22,8 +20,8 @@ class EcrLambdaStack(Stack):
             self, function_name,
             function_name=function_name,
             runtime=_lambda.Runtime.PYTHON_3_11,
-            handler="lambda_function.lambda_handler",
-            code=_lambda.Code.from_asset("lambda"),
+            handler="query_ecr_images.lambda_handler",
+            code=_lambda.Code.from_asset("lambda_src"),
             environment={
                 "AWS_ECR_PUBLIC_ALIAS": "dev1-sg",
                 "AWS_ECR_PUBLIC_REGION": "us-east-1",
