@@ -1,9 +1,0 @@
-## Docker Images List
-
-[https://gallery.ecr.aws/{{ alias }}/](https://gallery.ecr.aws/{{ alias }}/)
-
-| # | Repository Name | Group | URI | Latest Tag | Image Size (MB) |
-|---|-----------------|-------|-----|------------|-----------------|
-{% for item in items -%}
-| {{ item.number }} | [{{ item.name }}](https://gallery.ecr.aws/{{ alias }}/{{ item.name }}) | {{ item.group }} | {{ item.uri }} | {{ item.latest_tag }} | {{ item.image_size_mb }} |
-{% endfor %}
