@@ -1,0 +1,9 @@
+boto3
+botocore
+docker
+dotenv
+jinja2
+jupyterlab
+jupytext
+nbformat
+tzlocal
