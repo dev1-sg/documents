@@ -47,13 +47,6 @@ jobs:
           role-session-name: aws-oidc-${{ github.repository.name }}-${{ github.run_id }}
           aws-region: us-east-1
 
-      - name: Setup python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-          cache: 'pip'
-          cache-dependency-path: ecr-image-list/requirements.txt
-
       - name: Cdk deploy
         shell: bash
         run: |
