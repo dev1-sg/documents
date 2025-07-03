@@ -16,6 +16,7 @@ permissions:
   contents: write
 
 env:
+  AWS_DEFAULT_REGION: ap-southeast-1
   AWS_OIDC_ROLE_ARN: ${{ secrets.AWS_OIDC_ROLE_ARN }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   TZ: Asia/Singapore
@@ -55,4 +56,4 @@ jobs:
           source .venv/bin/activate
           pip install -r requirements.txt
           cdk bootstrap --qualifier d1sg-ecr
-          cdk deploy --all --ci
+          cdk deploy --all --ci --require-approval never
