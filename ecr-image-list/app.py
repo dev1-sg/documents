@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import aws_cdk as cdk
-from cdk.stack import EcrLambdaStack
+from cdk.stack import EcrImageList
 
 app = cdk.App()
-EcrLambdaStack(app, "EcrLambdaStack")
+EcrImageList(app, "EcrImageList")
 app.synth()

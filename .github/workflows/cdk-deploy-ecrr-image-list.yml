@@ -1,0 +1,65 @@
+name: Cdk Deploy ecr-image-list
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ecr-image-list/**
+  pull_request:
+    paths:
+      - ecr-image-list/**
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: write
+
+env:
+  AWS_OIDC_ROLE_ARN: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  TZ: Asia/Singapore
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: public.ecr.aws/dev1-sg/ci/aws-cdk:2.1020.0
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set shell options
+        shell: bash
+        run: set -euxo pipefail
+
+      - name: Setup qemu
+        uses: docker/setup-qemu-action@v3
+
+      - name: Setup docker buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ inputs.AWS_OIDC_ROLE_ARN }}
+          role-session-name: aws-oidc-${{ github.repository.name }}-${{ github.run_id }}
+          aws-region: us-east-1
+
+      - name: Setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: ecr-image-list/requirements.txt
+
+      - name: Cdk deploy
+        shell: bash
+        run: |
+          cd ecr-image-list
+          python3 -m venv .venv
+          source .venv/bin/activate
+          pip install -r requirements.txt
+          cdk bootstrap --qualifier d1sg-ecr
+          cdk deploy --all --ci
