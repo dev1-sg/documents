@@ -2,6 +2,7 @@ from aws_cdk import (
     Stack,
     aws_lambda as _lambda,
     aws_iam as iam,
+    aws_apigateway as apigw,
     Duration,
 )
 from constructs import Construct
@@ -10,18 +11,32 @@ class EcrLambdaStack(Stack):
     def __init__(self, scope: Construct, construct_id: str, **kwargs):
         super().__init__(scope, construct_id, **kwargs)
 
-        self.create_lambda("base")
-        self.create_lambda("ci")
+        base_lambda = self.create_lambda("base")
+        ci_lambda = self.create_lambda("ci")
 
-    def create_lambda(self, repo_group: str):
+        api = apigw.RestApi(
+            self, "EcrApi",
+            rest_api_name="Ecr Image API",
+            description="Routes for ECR Public Lambda functions"
+        )
+
+        images = api.root.add_resource("images")
+
+        base = images.add_resource("base")
+        base.add_method("GET", apigw.LambdaIntegration(base_lambda))
+
+        ci = images.add_resource("ci")
+        ci.add_method("GET", apigw.LambdaIntegration(ci_lambda))
+
+    def create_lambda(self, repo_group: str) -> _lambda.Function:
         function_name = f"EcrPublicLambda-{repo_group}"
 
         lambda_fn = _lambda.Function(
             self, function_name,
             function_name=function_name,
-            runtime=_lambda.Runtime.PYTHON_3_11,
-            handler="query_ecr_images.lambda_handler",
-            code=_lambda.Code.from_asset("lambda_src"),
+            runtime=_lambda.Runtime.PYTHON_3_12,
+            handler="handler.lambda_handler",
+            code=_lambda.Code.from_asset("lambda_functions"),
             environment={
                 "AWS_ECR_PUBLIC_ALIAS": "dev1-sg",
                 "AWS_ECR_PUBLIC_REGION": "us-east-1",
@@ -37,3 +52,5 @@ class EcrLambdaStack(Stack):
             ],
             resources=["*"]
         ))
+
+        return lambda_fn
