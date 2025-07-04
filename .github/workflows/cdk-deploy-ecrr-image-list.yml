@@ -46,7 +46,7 @@ jobs:
         with:
           role-to-assume: ${{ ENV.AWS_OIDC_ROLE_ARN }}
           role-session-name: aws-oidc-${{ github.repository.name }}-${{ github.run_id }}
-          aws-region: us-east-1
+          aws-region: ${{ ENV.AWS_DEFAULT_REGION }}
 
       - name: Cdk deploy
         shell: bash
