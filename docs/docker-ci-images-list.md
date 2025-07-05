@@ -1,4 +1,3 @@
-
 |#|Image|URI|Tag|Size(MB)|
 |---|---|---|---|---|
 |1|[ci/ansible](https://gallery.ecr.aws/dev1-sg/ci/ansible)|public.ecr.aws/dev1-sg/ci/ansible|11.7.0|210.07 MB|

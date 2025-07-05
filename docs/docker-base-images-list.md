@@ -1,4 +1,3 @@
-
 |#|Image|URI|Tag|Size(MB)|
 |---|---|---|---|---|
 |1|[base/alpine](https://gallery.ecr.aws/dev1-sg/base/alpine)|public.ecr.aws/dev1-sg/base/alpine|3.22|48.95 MB|
