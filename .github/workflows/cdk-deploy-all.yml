@@ -5,10 +5,10 @@ on:
     branches:
       - main
     paths:
-      - src/ecr-image-list/**
+      - src/**
   pull_request:
     paths:
-      - src/ecr-image-list/**
+      - src/**
   workflow_dispatch:
 
 permissions:
@@ -51,7 +51,7 @@ jobs:
       - name: Cdk deploy
         shell: bash
         run: |
-          cd src/ecr-image-list/
+          cd src
           python3 -m venv .venv
           source .venv/bin/activate
           pip install -r requirements.txt

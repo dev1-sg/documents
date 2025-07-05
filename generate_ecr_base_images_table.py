@@ -1,7 +1,7 @@
 import requests
 from jinja2 import Template
 
-url = "https://q04rtykgt9.execute-api.us-east-1.amazonaws.com/prod/images/ci"
+url = "https://api.dev1-sg.com/v1/public/images/base"
 
 response = requests.get(url)
 response.raise_for_status()
@@ -14,7 +14,7 @@ template_str = """
 |#|Image|URI|Tag|Size(MB)|
 |---|---|---|---|---|
 {% for image in images -%}
-|{{image.number}}|{{image.image_name}}|{{image.uri}}|{{image.latest_tag}}|{{"%.2f"|format(image.size_mb)}}|
+|{{image.number}}|[{{image.image_name}}](https://gallery.ecr.aws/dev1-sg/{{image.image_name}})|{{image.uri}}|{{image.latest_tag}}|{{image.size_mb}} MB|
 {% endfor %}
 """
 

@@ -7,28 +7,20 @@ from aws_cdk import (
 )
 from constructs import Construct
 
-class EcrImageList(Stack):
-    def __init__(self, scope: Construct, construct_id: str, **kwargs):
-        super().__init__(scope, construct_id, **kwargs)
+class EcrImageListStack(Stack):
+    def __init__(self, scope: Construct, id: str, *, rest_api: apigw.RestApi, images_resource: apigw.Resource, **kwargs):
+        super().__init__(scope, id, **kwargs)
 
-        base_lambda = self.create_lambda("base")
-        ci_lambda = self.create_lambda("ci")
+        base_lambda = self.create_ecr_lambda("base")
+        ci_lambda = self.create_ecr_lambda("ci")
 
-        api = apigw.RestApi(
-            self, "EcrApi",
-            rest_api_name="Ecr Image API",
-            description="Routes for ECR Public Lambda functions"
-        )
-
-        images = api.root.add_resource("images")
-
-        base = images.add_resource("base")
+        base = images_resource.add_resource("base")
         base.add_method("GET", apigw.LambdaIntegration(base_lambda))
 
-        ci = images.add_resource("ci")
+        ci = images_resource.add_resource("ci")
         ci.add_method("GET", apigw.LambdaIntegration(ci_lambda))
 
-    def create_lambda(self, repo_group: str) -> _lambda.Function:
+    def create_ecr_lambda(self, repo_group: str) -> _lambda.Function:
         function_name = f"EcrPublicLambda-{repo_group}"
 
         lambda_fn = _lambda.Function(
@@ -36,7 +28,7 @@ class EcrImageList(Stack):
             function_name=function_name,
             runtime=_lambda.Runtime.PYTHON_3_12,
             handler="handler.lambda_handler",
-            code=_lambda.Code.from_asset("lambda_functions"),
+            code=_lambda.Code.from_asset("lambda_functions/ecr_list_images"),
             environment={
                 "AWS_ECR_PUBLIC_ALIAS": "dev1-sg",
                 "AWS_ECR_PUBLIC_REGION": "us-east-1",
@@ -48,9 +40,9 @@ class EcrImageList(Stack):
         lambda_fn.add_to_role_policy(iam.PolicyStatement(
             actions=[
                 "ecr-public:DescribeRepositories",
-                "ecr-public:DescribeImages"
+                "ecr-public:DescribeImages",
             ],
-            resources=["*"]
+            resources=["*"],
         ))
 
         return lambda_fn

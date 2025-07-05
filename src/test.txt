@@ -1,0 +1,4 @@
+{
+  "statusCode": 200,
+  "body": "{\"task_id\": \"3f791c1e07be412c8ca83aa66dd9982a\", \"output\": \"PRETTY_NAME=\\\"Ubuntu 24.04.2 LTS\\\"\\nNAME=\\\"Ubuntu\\\"\\nVERSION_ID=\\\"24.04\\\"\\nVERSION=\\\"24.04.2 LTS (Noble Numbat)\\\"\\nVERSION_CODENAME=noble\\nID=ubuntu\\nID_LIKE=debian\\nHOME_URL=\\\"https://www.ubuntu.com/\\\"\\nSUPPORT_URL=\\\"https://help.ubuntu.com/\\\"\\nBUG_REPORT_URL=\\\"https://bugs.launchpad.net/ubuntu/\\\"\\nPRIVACY_POLICY_URL=\\\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\\\"\\nUBUNTU_CODENAME=noble\\nLOGO=ubuntu-logo\"}"
+}
