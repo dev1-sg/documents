@@ -1,11 +1,2 @@
-boto3
-botocore
-docker
-dotenv
-jinja2
-jupyterlab
-jupytext
-nbformat
 requests
-tzlocal
-pandas
+jinja2
