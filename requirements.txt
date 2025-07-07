@@ -8,3 +8,4 @@ jupytext
 nbformat
 requests
 tzlocal
+pandas

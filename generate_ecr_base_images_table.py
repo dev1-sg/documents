@@ -3,11 +3,13 @@ from jinja2 import Template
 
 images = next(iter(requests.get("https://api.dev1-sg.com/v1/public/images/base").json().values()))
 
+images = sorted(images, key=lambda x: x["image_name"].lower())
+
 template = Template("""\
-|#|Image|URI|Tag|Size(MB)|
-|---|---|---|---|---|
+|#|Image|Group|URI|Latest Tag|Size(MB)|SHA256|Last Push|
+|---|---|---|---|---|---|---|---|
 {% for image in images -%}
-|{{ image.number }}|[{{ image.image_name }}](https://gallery.ecr.aws/dev1-sg/{{ image.image_name }})|{{ image.uri }}|{{ image.latest_tag }}|{{ image.size_mb }} MB|
+|{{ loop.index }}|[{{ image.image_name }}](https://gallery.ecr.aws/dev1-sg/{{ image.image_name }})|{{ image.image_group }}|{{ image.uri }}|{{ image.latest_tag }}|{{ image.size_mb }} MB|{{ image.latest_sha }}|{{ image.last_push }}|
 {% endfor -%}
 """)
 

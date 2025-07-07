@@ -54,18 +54,17 @@ def lambda_handler(event, context):
     prefix = f"{AWS_ECR_PUBLIC_REPOSITORY_GROUP}/"
 
     images = []
-    for i, repo_name in enumerate(sorted(list_repositories(client, prefix)), 1):
+    for repo_name in sorted(list_repositories(client, prefix)):
         tag, size_mb, sha_digest, pushed_at = get_latest_image(client, repo_name)
         group = repo_name.split("/")[0] if "/" in repo_name else "-"
         images.append({
-            "number": i,
             "image_name": repo_name,
             "image_group": group,
             "uri": f"{ECR_PUBLIC_URI}/{repo_name}",
             "latest_tag": tag,
             "latest_sha": sha_digest,
             "size_mb": size_mb,
-            "uploaded_at": pushed_at
+            "last_push": pushed_at
         })
 
     return {
