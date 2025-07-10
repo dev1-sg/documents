@@ -1,4 +1,11 @@
-from aws_cdk import Stack, aws_apigateway as apigw, aws_certificatemanager as acm
+from aws_cdk import (
+    Stack,
+    aws_lambda as _lambda,
+    aws_iam as iam,
+    aws_apigateway as apigw,
+    aws_certificatemanager as acm,
+    Duration,
+)
 from constructs import Construct
 
 class ApiGatewayStack(Stack):
@@ -11,8 +18,8 @@ class ApiGatewayStack(Stack):
         )
 
         self.rest_api = apigw.RestApi(
-            self, "EcrPublicApi",
-            rest_api_name="EcrPublicApi",
+            self, "ListPublicResourcesApi",
+            rest_api_name="ListPublicResourcesApi",
             endpoint_types=[apigw.EndpointType.REGIONAL],
             deploy_options=apigw.StageOptions(stage_name="prod")
         )
@@ -27,5 +34,30 @@ class ApiGatewayStack(Stack):
         )
 
         self.images_resource = self.rest_api.root.add_resource("images")
-
         self.repos_resource = self.rest_api.root.add_resource("repos")
+        self.apis_resource = self.rest_api.root.add_resource("apis")
+
+        ApiGatewayListStack(self, "ApiGatewayListing", apis_resource=self.apis_resource)
+
+class ApiGatewayListStack(Construct):
+    def __init__(self, scope: Construct, id: str, *, apis_resource: apigw.Resource):
+        super().__init__(scope, id)
+
+        function_name = "ApiGatewayListApis"
+
+        lambda_fn = _lambda.Function(
+            self, function_name,
+            function_name=function_name,
+            runtime=_lambda.Runtime.PYTHON_3_12,
+            handler="handler.lambda_handler",
+            code=_lambda.Code.from_asset("lambda_functions/api_list_paths"),
+            timeout=Duration.seconds(30),
+        )
+
+        lambda_fn.add_to_role_policy(iam.PolicyStatement(
+            actions=["apigateway:GET"],
+            resources=["*"],
+        ))
+
+        rest = apis_resource.add_resource("rest")
+        rest.add_method("GET", apigw.LambdaIntegration(lambda_fn))

@@ -7,7 +7,7 @@ from aws_cdk import (
 )
 from constructs import Construct
 
-class EcrImageListStack(Stack):
+class EcrPublicListStack(Stack):
     def __init__(self, scope: Construct, id: str, *, rest_api: apigw.RestApi, images_resource: apigw.Resource, **kwargs):
         super().__init__(scope, id, **kwargs)
 
@@ -21,7 +21,7 @@ class EcrImageListStack(Stack):
         ci.add_method("GET", apigw.LambdaIntegration(ci_lambda))
 
     def create_ecr_lambda(self, repo_group: str) -> _lambda.Function:
-        function_name = f"EcrPublicLambda-{repo_group}"
+        function_name = f"EcrPublicListRepos-{repo_group}"
 
         lambda_fn = _lambda.Function(
             self, function_name,

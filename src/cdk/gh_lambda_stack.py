@@ -6,13 +6,14 @@ from aws_cdk import (
 )
 from constructs import Construct
 
-class GitHubRepoListStack(Stack):
+class GitHubPublicListStack(Stack):
     def __init__(self, scope: Construct, id: str, *, rest_api: apigw.RestApi, repos_resource: apigw.Resource, **kwargs):
         super().__init__(scope, id, **kwargs)
+        function_name = "GitHubPublicListRepos"
 
-        gh_lambda = _lambda.Function(
-            self, "GitHubListReposLambda",
-            function_name="GhPublicRepos",
+        lambda_fn = _lambda.Function(
+            self, function_name,
+            function_name=function_name,
             runtime=_lambda.Runtime.PYTHON_3_12,
             handler="handler.lambda_handler",
             code=_lambda.Code.from_asset("lambda_functions/gh_list_repos"),
@@ -23,4 +24,4 @@ class GitHubRepoListStack(Stack):
         )
 
         gh_resource = repos_resource.add_resource("gh")
-        gh_resource.add_method("GET", apigw.LambdaIntegration(gh_lambda))
+        gh_resource.add_method("GET", apigw.LambdaIntegration(lambda_fn))

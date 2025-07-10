@@ -19,7 +19,7 @@ def to_singapore_time(dt):
         return None
     return dt.astimezone(TZ).replace(microsecond=0).isoformat()
 
-def get_ecr_client():
+def get_boto3_client():
     return boto3.client(
         "ecr-public",
         region_name=AWS_ECR_PUBLIC_REGION,
@@ -50,7 +50,7 @@ def get_latest_image(client, repo_name):
     return tag or "<none>", size_mb, sha_digest, pushed_at
 
 def lambda_handler(event, context):
-    client = get_ecr_client()
+    client = get_boto3_client()
     prefix = f"{AWS_ECR_PUBLIC_REPOSITORY_GROUP}/"
 
     images = []
