@@ -1,0 +1,19 @@
+{
+  "image": "public.ecr.aws/dev1-sg/devcontainer/ubuntu-base:latest",
+  "name": "dev1-sg-docs",
+  "features": {
+      "ghcr.io/dev1-sg/devcontainers/common-utils:1": {},
+      "ghcr.io/dev1-sg/devcontainers/docker-in-docker:latest": {},
+      "ghcr.io/dev1-sg/devcontainers/aws-cli:1": {},
+      "ghcr.io/dev1-sg/devcontainers/github-cli:1": {},
+      "ghcr.io/dev1-sg/devcontainers/node:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {"terminal.integrated.defaultProfile.linux": "zsh"}
+    }
+  },
+  "containerUser": "vscode",
+  "workspaceMount": "source=${localWorkspaceFolder}/,target=/home/vscode/dev1-sg-docs,type=bind,consistency=cached", "workspaceFolder": "/home/vscode",
+  "postCreateCommand": "sudo chown -R vscode:vscode /home/vscode"
+}
