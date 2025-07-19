@@ -7,7 +7,7 @@ from zoneinfo import ZoneInfo
 GITHUB_ORG = os.getenv("GITHUB_ORG", "dev1-sg")
 TZ = ZoneInfo("Asia/Singapore")
 
-def to_singapore_time(dt_str):
+def singapore_time(dt_str):
     if not dt_str:
         return None
     dt = datetime.fromisoformat(dt_str.replace("Z", "+00:00"))
@@ -27,7 +27,7 @@ def lambda_handler(event, context):
     repos = fetch_github_repos(GITHUB_ORG)
     data = []
     for repo in repos:
-        pushed_at = to_singapore_time(repo.get("pushed_at"))
+        pushed_at = singapore_time(repo.get("pushed_at"))
         data.append({
             "name": repo.get("name"),
             "description": repo.get("description"),

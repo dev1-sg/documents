@@ -11,11 +11,11 @@ class EcrPublicListStack(Stack):
     def __init__(self, scope: Construct, id: str, *, rest_api: apigw.RestApi, images_resource: apigw.Resource, **kwargs):
         super().__init__(scope, id, **kwargs)
 
-        base_lambda = self.create_ecr_lambda("base")
+        alpine_lambda = self.create_ecr_lambda("alpine")
         ci_lambda = self.create_ecr_lambda("ci")
 
-        base = images_resource.add_resource("base")
-        base.add_method("GET", apigw.LambdaIntegration(base_lambda))
+        alpine = images_resource.add_resource("alpine")
+        alpine.add_method("GET", apigw.LambdaIntegration(alpine_lambda))
 
         ci = images_resource.add_resource("ci")
         ci.add_method("GET", apigw.LambdaIntegration(ci_lambda))

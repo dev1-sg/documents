@@ -9,6 +9,7 @@ from constructs import Construct
 class GitHubPublicListStack(Stack):
     def __init__(self, scope: Construct, id: str, *, rest_api: apigw.RestApi, repos_resource: apigw.Resource, **kwargs):
         super().__init__(scope, id, **kwargs)
+
         function_name = "GitHubPublicListRepos"
 
         lambda_fn = _lambda.Function(

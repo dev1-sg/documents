@@ -25,7 +25,7 @@ def get_custom_domain_mappings(http_client):
     return domain_map
 
 def collect_rest_apis(rest_client, region, domain_map):
-    normalized = []
+    rest_api = []
     rest_apis = rest_client.get_rest_apis().get("items", [])
     for api in rest_apis:
         api_id = api["id"]
@@ -56,7 +56,7 @@ def collect_rest_apis(rest_client, region, domain_map):
                 full_url = urllib.parse.urljoin(mapping["fullPath"].rstrip("/") + "/", route_path)
                 full_paths.append(full_url)
 
-        normalized.append({
+        rest_api.append({
             "apiId": api_id,
             "type": "REST",
             "name": name,
@@ -67,14 +67,14 @@ def collect_rest_apis(rest_client, region, domain_map):
             "fullPaths": full_paths
         })
 
-    return normalized
+    return rest_api
 
 def lambda_handler(event, context):
     rest_client, http_client, region = get_boto3_client()
     domain_map = get_custom_domain_mappings(http_client)
-    normalized = collect_rest_apis(rest_client, region, domain_map)
+    rest_api = collect_rest_apis(rest_client, region, domain_map)
 
     return {
         "headers": {"Content-Type": "application/json"},
-        "body": json.dumps({"rest_apis": normalized}, indent=2)
+        "body": json.dumps({"rest_apis": rest_api}, indent=2)
     }
