@@ -13,12 +13,16 @@ class EcrPublicListStack(Stack):
 
         alpine_lambda = self.create_ecr_lambda("alpine")
         ci_lambda = self.create_ecr_lambda("ci")
+        ubuntu_lambda = self.create_ecr_lambda("ubuntu")
 
         alpine = images_resource.add_resource("alpine")
         alpine.add_method("GET", apigw.LambdaIntegration(alpine_lambda))
 
         ci = images_resource.add_resource("ci")
         ci.add_method("GET", apigw.LambdaIntegration(ci_lambda))
+
+        ubuntu = images_resource.add_resource("ubuntu")
+        ubuntu.add_method("GET", apigw.LambdaIntegration(ubuntu_lambda))
 
     def create_ecr_lambda(self, repo_group: str) -> _lambda.Function:
         function_name = f"EcrPublicListRepos-{repo_group}"
