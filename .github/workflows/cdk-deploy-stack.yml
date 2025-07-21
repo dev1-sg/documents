@@ -79,13 +79,6 @@ jobs:
       - name: Setup docker buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ ENV.AWS_OIDC_ROLE_ARN }}
-          role-session-name: aws-oidc-${{ github.repository.name }}-${{ github.run_id }}
-          aws-region: ${{ ENV.AWS_DEFAULT_REGION }}
-
       - name: Install Python dependencies
         working-directory: src
         run: |
