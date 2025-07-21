@@ -50,12 +50,14 @@ jobs:
 
       - name: Install Python dependencies
         working-directory: src
+        shell: bash
         run: |
           python3 -m venv .venv
           source .venv/bin/activate
           pip install -r requirements.txt
 
       - name: Cdk deploy
+        working-directory: src
         shell: bash
         run: |
           source .venv/bin/activate
@@ -81,12 +83,14 @@ jobs:
 
       - name: Install Python dependencies
         working-directory: src
+        shell: bash
         run: |
           python3 -m venv .venv
           source .venv/bin/activate
           pip install -r requirements.txt
 
       - name: Cdk validate
+        working-directory: src
         shell: bash
         run: |
           source .venv/bin/activate
