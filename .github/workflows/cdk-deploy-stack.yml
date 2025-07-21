@@ -1,4 +1,4 @@
-name: Cdk Deploy ecr-image-list
+name: Cdk Deploy stack
 
 on:
   push:
@@ -48,14 +48,53 @@ jobs:
           role-session-name: aws-oidc-${{ github.repository.name }}-${{ github.run_id }}
           aws-region: ${{ ENV.AWS_DEFAULT_REGION }}
 
-      - name: Cdk deploy
-        shell: bash
+      - name: Install Python dependencies
+        working-directory: src
         run: |
-          node --version
-          cdk --version
-          cd src
           python3 -m venv .venv
           source .venv/bin/activate
           pip install -r requirements.txt
+
+      - name: Cdk deploy
+        shell: bash
+        run: |
+          source .venv/bin/activate
           cdk bootstrap --qualifier d1sg-ecr
           cdk deploy --all --ci --require-approval never
+
+  dependabot-pr:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set shell options
+        shell: bash
+        run: set -euxo pipefail
+
+      - name: Setup qemu
+        uses: docker/setup-qemu-action@v3
+
+      - name: Setup docker buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ ENV.AWS_OIDC_ROLE_ARN }}
+          role-session-name: aws-oidc-${{ github.repository.name }}-${{ github.run_id }}
+          aws-region: ${{ ENV.AWS_DEFAULT_REGION }}
+
+      - name: Install Python dependencies
+        working-directory: src
+        run: |
+          python3 -m venv .venv
+          source .venv/bin/activate
+          pip install -r requirements.txt
+
+      - name: Cdk validate
+        shell: bash
+        run: |
+          source .venv/bin/activate
+          cdk synth
