@@ -13,6 +13,7 @@ class EcrPublicListStack(Stack):
 
         alpine_lambda = self.create_ecr_lambda("alpine")
         ci_lambda = self.create_ecr_lambda("ci")
+        devcontainer_lambda = self.create_ecr_lambda("devcontainer")
         ubuntu_lambda = self.create_ecr_lambda("ubuntu")
 
         alpine = images_resource.add_resource("alpine")
@@ -20,6 +21,9 @@ class EcrPublicListStack(Stack):
 
         ci = images_resource.add_resource("ci")
         ci.add_method("GET", apigw.LambdaIntegration(ci_lambda))
+
+        devcontainer = images_resource.add_resource("devcontainer")
+        devcontainer.add_method("GET", apigw.LambdaIntegration(devcontainer_lambda))
 
         ubuntu = images_resource.add_resource("ubuntu")
         ubuntu.add_method("GET", apigw.LambdaIntegration(ubuntu_lambda))

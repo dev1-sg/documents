@@ -1,5 +1,5 @@
 {
-  "image": "public.ecr.aws/dev1-sg/devcontainer/ubuntu-base:latest",
+  "image": "public.ecr.aws/dev1-sg/devcontainer/python-base:latest",
   "name": "dev1-sg-docs",
   "features": {
       "ghcr.io/dev1-sg/devcontainers/common-utils:1": {},
