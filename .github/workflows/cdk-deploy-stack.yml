@@ -66,6 +66,8 @@ jobs:
 
   dependabot-pr:
     runs-on: ubuntu-latest
+    container:
+      image: public.ecr.aws/dev1-sg/ci/aws-cdk:2.1020.2
     if: github.event.pull_request.user.login == 'dependabot[bot]'
     steps:
       - name: Checkout Repository
