@@ -26,5 +26,5 @@ class GitLabPublicListStack(Stack):
             timeout=Duration.seconds(30),
         )
 
-        gl_resource = snippets_resource.add_resource("gl")
+        gl_resource = snippets_resource.add_resource("snippets")
         gl_resource.add_method("GET", apigw.LambdaIntegration(lambda_fn))

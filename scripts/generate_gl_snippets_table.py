@@ -1,7 +1,7 @@
 import requests
 from jinja2 import Template
 
-snippets = next(iter(requests.get("https://api.dev1-sg.com/v1/public/snippets/gl").json().values()))
+snippets = next(iter(requests.get("https://api.dev1-sg.com/v1/public/gl/snippets").json().values()))
 
 template = Template("""\
 |#|Name|Raw URL|ID|Last Updated|

@@ -35,8 +35,8 @@ class ApiGatewayStack(Stack):
 
         self.apis_resource = self.rest_api.root.add_resource("apis")
         self.images_resource = self.rest_api.root.add_resource("images")
-        self.repos_resource = self.rest_api.root.add_resource("repos")
-        self.snippets_resource = self.rest_api.root.add_resource("snippets")
+        self.repos_resource = self.rest_api.root.add_resource("gh")
+        self.snippets_resource = self.rest_api.root.add_resource("gl")
 
 class ApiGatewayListStack(Stack):
     def __init__(self, scope: Construct, id: str, *, rest_api: apigw.RestApi, apis_resource: apigw.Resource, **kwargs):

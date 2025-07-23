@@ -24,5 +24,5 @@ class GitHubPublicListStack(Stack):
             timeout=Duration.seconds(30),
         )
 
-        gh_resource = repos_resource.add_resource("gh")
+        gh_resource = repos_resource.add_resource("repos")
         gh_resource.add_method("GET", apigw.LambdaIntegration(lambda_fn))
