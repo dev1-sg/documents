@@ -16,8 +16,7 @@ def singapore_time(dt_str):
 def fetch_github_repos(org, per_page=100):
     url = f"https://api.github.com/orgs/{org}/repos?type=public&per_page={per_page}"
     headers = {
-        "User-Agent": "lambda-client",
-        "Accept": "application/vnd.github.mercy-preview+json"
+        "Accept": "application/json",
     }
     req = urllib.request.Request(url, headers=headers)
     with urllib.request.urlopen(req) as response:

@@ -6,4 +6,5 @@
 |4|ListPublicResourcesApi|GET|/images/devcontainer|https://api.dev1-sg.com/v1/public/images/devcontainer|
 |5|ListPublicResourcesApi|GET|/apis/rest|https://api.dev1-sg.com/v1/public/apis/rest|
 |6|ListPublicResourcesApi|GET|/repos/gh|https://api.dev1-sg.com/v1/public/repos/gh|
+|7|ListPublicResourcesApi|GET|/snippets/gl|https://api.dev1-sg.com/v1/public/snippets/gl|
 

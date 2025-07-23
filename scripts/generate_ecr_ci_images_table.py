@@ -3,8 +3,6 @@ from jinja2 import Template
 
 images = next(iter(requests.get("https://api.dev1-sg.com/v1/public/images/ci").json().values()))
 
-images = sorted(images, key=lambda x: x["image_name"].lower())
-
 template = Template("""\
 |#|Image|Group|URI|Latest Tag|Size(MB)|SHA256|Source|Last Push|
 |---|---|---|---|---|---|---|---|---|

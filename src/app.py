@@ -3,6 +3,7 @@ from cdk.api_gateway_stack import ApiGatewayStack
 from cdk.api_gateway_stack import ApiGatewayListStack
 from cdk.ecr_lambda_stack import EcrPublicListStack
 from cdk.gh_lambda_stack import GitHubPublicListStack
+from cdk.gl_lambda_stack import GitLabPublicListStack
 
 app = App()
 
@@ -24,6 +25,12 @@ GitHubPublicListStack(
     app, "GitHubPublicListStack",
     rest_api=api_stack.rest_api,
     repos_resource=api_stack.repos_resource
+)
+
+GitLabPublicListStack(
+    app, "GitLabPublicListStack",
+    rest_api=api_stack.rest_api,
+    snippets_resource=api_stack.snippets_resource
 )
 
 app.synth()
