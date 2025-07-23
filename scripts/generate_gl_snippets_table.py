@@ -7,7 +7,7 @@ template = Template("""\
 |#|Name|Raw URL|ID|Last Updated|
 |---|---|---|---|---|
 {% for snippet in snippets -%}
-|{{ loop.index }}|[{{ snippet.name }}|{{ snippet.raw_url }}|{{ snippet.id }}|{{ snippet.updated_at }}|
+|{{ loop.index }}|{{ snippet.name }}|{{ snippet.raw_url }}|{{ snippet.id }}|{{ snippet.updated_at }}|
 {% endfor -%}
 """)
 
